@@ -1,0 +1,76 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.date-selector {
+  display: none;
+}
+
+.open {
+  display: block;
+}
+
+.date-selector__wrapper {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  
+  margin-bottom: 2rem;
+  border: 1px solid #ccc;
+}
+
+.date-selector__wrapper__year {
+  display: grid;
+  grid-column: 1/4;
+  grid-template-columns: repeat(3, 1fr);
+  border-right: 1px solid #ccc;
+}
+
+.date-selector__wrapper__year__century {
+  display: grid;
+  grid-template-rows: 3;
+}
+
+.date-selector__wrapper__year__decade {
+  display: grid;
+  grid-template-rows: 3;
+}
+
+.date-selector__wrapper__year__year {
+  display: grid;
+  grid-template-rows: 3;
+}
+
+.date-selector__wrapper__month {
+  display: grid;
+  grid-column: 4;
+  border-right: 1px solid #ccc;
+}
+
+.date-selector__wrapper__day {
+  display: grid;
+  grid-column: 5/7;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.date-selector__wrapper__day__doze {
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+}
+
+.date-selector__wrapper__day__day {
+  display: grid;
+  grid-template-rows: 3;
+}
+
+button.active {
+  background-color: #767575;
+  color: #fff;
+}
+
+button.disabled {
+  background-color: red;
+  color: #fff;
+}
