@@ -1,14 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 interface AppProps {
   locale?: "en" | "fr" | "es";
   defaultDate?: string;
+  wrapperHeigth?: string;
+  wrapperWidth?: string;
 }
 
 function App({ 
-  locale = "en",
+  locale = "fr",
   defaultDate,
+  wrapperHeigth = "auto",
+  wrapperWidth = "auto",
 }: AppProps) {
   const [date, setDate] = useState(defaultDate ? defaultDate : new Date().toISOString().slice(0, 10));
   const [isDateSelectorOpen, setIsDateSelectorOpen] = useState(false);
@@ -16,11 +20,49 @@ function App({
     setIsDateSelectorOpen(!isDateSelectorOpen);
   };
   const centuries = ["19", "20", "21"];
-  const decades = ["00", "10", "20", "30", "40", "50", "60", "70", "80", "90"];
+  const decades = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
   const years = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+  const longMonths = ["01", "03", "05", "07", "08", "10", "12"];
+  const dozeThirtyButton: HTMLButtonElement = document.querySelector('#doze-thirty') as HTMLButtonElement;
+  const dayNineButton: HTMLButtonElement = document.querySelector('#day-nine') as HTMLButtonElement;
+  const dayZeroButton: HTMLButtonElement = document.querySelector('#day-zero') as HTMLButtonElement;
+  const daysButtons: HTMLButtonElement[] = Array.from(document.querySelectorAll('[name="day-unit"]'));
+
+  // style
+  
+  useEffect(() => {
+    const datePickerWrapper: HTMLDivElement = document.querySelector(".date-selector__wrapper") as HTMLDivElement;
+    const yearWrapper: HTMLDivElement = document.querySelector(".date-selector__wrapper__year") as HTMLDivElement;
+    if (datePickerWrapper.style) { 
+      datePickerWrapper.style.height = wrapperHeigth;
+      datePickerWrapper.style.width = wrapperWidth;
+    }
+    if (yearWrapper.style) {
+      console.log("test")
+    }
+
+    console.log(datePickerWrapper.childNodes);
+  }, [wrapperHeigth, wrapperWidth, locale]);
 
   const isYearBisextile = (year: number) => {
     return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+  };
+
+  const formatDate = (date: string) => {
+    const year = date.slice(0, 4);
+    const month = date.slice(5, 7);
+    const day = date.slice(8, 10);
+    if (locale === "en") {
+      return `${months[locale][parseInt(month) - 1]} ${day}, ${year}`;
+    }
+    if (locale === "fr") {
+      return `${day} ${months[locale][parseInt(month) - 1]} ${year}`;
+    }
+    if (locale === "es"){
+      return `${day} de ${months[locale][parseInt(month) - 1]} de ${year}`;
+    }
+
+    return `${day} ${months[locale][parseInt(month) - 1]} ${year}`;
   };
 
   const months = {
@@ -31,7 +73,7 @@ function App({
       "April",
       "May",
       "June",
-      "Jully",
+      "July",
       "August",
       "September",
       "October",
@@ -68,8 +110,8 @@ function App({
     ],
   };
 
-  const doze = ["00", "10", "20", "30"];
-  const days = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+  const doze = ["0", "1", "2", "3"];
+  const days = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
   const setActive = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.parentElement
@@ -77,84 +119,80 @@ function App({
       .forEach((button) => {
         button.classList.remove("active");
       });
+    // si la douzaine est 3
+    if (e.currentTarget.id === "doze-thirty") {
+      setDate(date.slice(0, 8) + "30");
+      console.log(dayZeroButton.classList)
+      dayZeroButton.classList.add("active");
+    }
+      
     e.currentTarget.classList.add("active");
   };
 
   const dateSelector = (e: React.MouseEvent<HTMLButtonElement>) => {
     let updatedDate = date;
     setActive(e);
-    const currentActives = document.querySelectorAll(".active");
-    if (currentActives) {
-      updatedDate = currentActives[0].textContent + currentActives[1].textContent + currentActives[2].textContent + currentActives[3].textContent + currentActives[4].textContent + currentActives[5].textContent + currentActives[6].textContent + currentActives[7].textContent + currentActives[8].textContent + currentActives[9].textContent;
-    }
-    console.log(updatedDate);
     switch (e.currentTarget.name) {
       case "year-century":
-        setDate(e.currentTarget.textContent + date.slice(2, 10));
+        updatedDate = e.currentTarget.textContent + date.slice(2, 10);
+        setDate(updatedDate);
         break;
       case "year-decade":
-        setDate(
-          date.slice(0, 2) + e.currentTarget.textContent + date.slice(4, 10)
-        );
+        updatedDate = date.slice(0, 2) + e.currentTarget.textContent + date.slice(3, 10);
+        setDate(updatedDate);
         break;
       case "year-unit":
-        setDate(
-          date.slice(0, 3) + e.currentTarget.textContent + date.slice(4, 10)
-        );
+        updatedDate = date.slice(0, 3) + e.currentTarget.textContent + date.slice(4, 10);
+        setDate(updatedDate);
         break;
       case "month":
-        setDate(
-          date.slice(0, 5) +
-          (months[locale].indexOf(e.currentTarget.textContent as string) + 1 <
-            10
-            ? "0" +
-            (months[locale].indexOf(e.currentTarget.textContent as string) +
-              1)
-            : months[locale].indexOf(e.currentTarget.textContent as string) +
-            1
-          ).toString() +
-          date.slice(7, 10)
-        );
+        updatedDate = date.slice(0, 5) + (months[locale].indexOf(e.currentTarget.textContent as string) + 1 < 10 ? "0" + (months[locale].indexOf(e.currentTarget.textContent as string) + 1) : months[locale].indexOf(e.currentTarget.textContent as string) + 1).toString() + date.slice(7, 10);
+        setDate(updatedDate);
         break;
       case "day-doze":
-        // eslint-disable-next-line no-case-declarations
-        const doze =
-          e.currentTarget.textContent === "00"
-            ? "01"
-            : e.currentTarget.textContent;
-        setDate(date.slice(0, 8) + doze + date.slice(10, 10));
+        updatedDate = date.slice(0, 8) + e.currentTarget.textContent + date.slice(9, 10);
+        setDate(updatedDate);
         break;
       case "day-unit":
-        setDate(
-          date.slice(0, 9) + e.currentTarget.textContent + date.slice(10, 10)
-        );
+        updatedDate = date.slice(0, 9) + e.currentTarget.textContent;
+        setDate(updatedDate);
         break;
       default:
         break;
     }
-    
-    if (
-      !isYearBisextile(parseInt(date.slice(0, 4))) &&
-      date.slice(5, 7) === "02" &&
-      date.slice(8, 9) === "2") {
-        console.log(document.querySelector('#day-nine'))
-      document.querySelector('#day-nine')?.classList.add("disabled");
-      console.log("warning bisextile");
+
+    // si la douzaine est 3
+    if (updatedDate.slice(8, 9) === "3") {
+      // si le mois est long
+      if (longMonths.includes(updatedDate.slice(5, 7))) {
+        daysButtons.forEach((button) => {
+          button.textContent === "0" || button.textContent === "1" ? button.disabled = false : button.disabled = true;
+        });
+      } else {
+        daysButtons.forEach((button) => {
+          button.textContent === "0" ? button.disabled = false : button.disabled = true;
+        });
+      }
     } else {
-      document.querySelector('#day-nine')?.classList.remove("disabled")
+      daysButtons.forEach((button) => {
+        button.disabled = false;
+      });
     }
-    if (date.slice(5, 7) === "02") {
-      document.querySelectorAll('button[name="day-doze"]')?.forEach((button) => {
-        if (button.textContent === "30") {
-          button.classList.add("disabled");
-        }
-      });
+
+    // si le mois est février
+    if (
+      updatedDate.slice(5, 7) === "02" ) {
+      dozeThirtyButton.disabled = true;
+
+      // si c'est pas bisextile et que la douzaine est 2 
+      if (!isYearBisextile(parseInt(updatedDate.slice(0, 4))) && 
+      updatedDate.slice(8, 9) === "2") {
+        dayNineButton.disabled = true;
+      } else {
+        dayNineButton.disabled = false;
+      }
     } else {
-      document.querySelectorAll('button[name="day-doze"]')?.forEach((button) => {
-        if (button.textContent === "30") {
-          button.classList.remove("disabled");
-        }
-      });
+      dozeThirtyButton.disabled = false;
     }
 
   };
@@ -163,7 +201,7 @@ function App({
     <>
       <form>
         <label htmlFor="name">Date:</label>
-        <input type="date" id="date" name="date" />
+        {/* <input type="date" id="date" name="date" /> */}
         <input
           type="text"
           id="date"
@@ -247,7 +285,7 @@ function App({
                     className={
                       doz.slice(0, 1) === date.slice(8, 9) ? "active" : ""
                     }
-                    id={doz === "30" ? "doze-thirty" : ""}
+                    id={doz === "3" ? "doze-thirty" : ""}
                   >
                     {doz}
                   </button>
@@ -261,7 +299,7 @@ function App({
                     key={"day" + day}
                     onClick={(e) => dateSelector(e)}
                     className={day === date.slice(9, 10) ? "active" : ""}
-                    id={day === "9" ? "day-nine" : ""}
+                    id={day === "9" ? "day-nine" : day === "1" ? "day-one" : ""}
                   >
                     {day}
                   </button>
@@ -270,7 +308,7 @@ function App({
             </div>
           </div>
         </div>
-        <h1>{date}</h1>
+        <h1>{formatDate(date)}</h1>
       </form>
     </>
   );
