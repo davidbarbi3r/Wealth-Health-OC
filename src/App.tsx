@@ -194,6 +194,19 @@ function App({
     } else {
       dozeThirtyButton.disabled = false;
     }
+    
+    // Si la douzaine jour est 0 et que le day unit est 0
+    if (
+      updatedDate.slice(8, 9) === "0"
+    ) {
+      dayZeroButton.disabled = true
+      updatedDate.slice(9,10) === "0" ? 
+      updatedDate = updatedDate.slice(0,9) + "1" : updatedDate
+      console.log(updatedDate.slice(9,10))
+      setDate(updatedDate)
+    } else {
+      dayZeroButton.disabled = false
+    }
 
   };
 
@@ -299,7 +312,7 @@ function App({
                     key={"day" + day}
                     onClick={(e) => dateSelector(e)}
                     className={day === date.slice(9, 10) ? "active" : ""}
-                    id={day === "9" ? "day-nine" : day === "1" ? "day-one" : ""}
+                    id={day === "9" ? "day-nine" : day === "1" ? "day-one" : day === "0" ? "day-zero" : ""}
                   >
                     {day}
                   </button>
