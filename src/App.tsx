@@ -154,6 +154,33 @@ function App({
       default:
         break;
     }
+    
+    daysButtons.forEach((button) => {
+      button.disabled = false;
+    });
+
+    // si le mois est février
+     if (
+      updatedDate.slice(5, 7) === "02" ) {
+      dozeThirtyButton.disabled = true;
+
+      // si on est sur 30+ rediriger sur 20
+      if (updatedDate.slice(8,9) === "3"){
+        updatedDate = updatedDate.slice(0,8) + "28"
+        setDate(updatedDate)
+      }
+
+      // si c'est pas bisextile et que la douzaine est 2 
+      if (!isYearBisextile(parseInt(updatedDate.slice(0, 4))) && 
+      updatedDate.slice(8, 9) === "2") {
+        dayNineButton.disabled = true;
+        console.log(dayNineButton)
+      } else {
+        dayNineButton.disabled = false;
+      }
+    } else {
+      dozeThirtyButton.disabled = false;
+    }
 
     // si la douzaine est 3
     if (updatedDate.slice(8, 9) === "3") {
@@ -170,27 +197,7 @@ function App({
           setDate(updatedDate)
         });
       }
-    } else {
-      daysButtons.forEach((button) => {
-        button.disabled = false;
-      });
-    }
-
-    // si le mois est février
-    if (
-      updatedDate.slice(5, 7) === "02" ) {
-      dozeThirtyButton.disabled = true;
-
-      // si c'est pas bisextile et que la douzaine est 2 
-      if (!isYearBisextile(parseInt(updatedDate.slice(0, 4))) && 
-      updatedDate.slice(8, 9) === "2") {
-        dayNineButton.disabled = true;
-      } else {
-        dayNineButton.disabled = false;
-      }
-    } else {
-      dozeThirtyButton.disabled = false;
-    }
+    } 
     
     // Si la douzaine jour est 0 et que le day unit est 0
     if (
