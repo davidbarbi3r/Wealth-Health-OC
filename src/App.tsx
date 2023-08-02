@@ -119,12 +119,6 @@ function App({
       .forEach((button) => {
         button.classList.remove("active");
       });
-    // si la douzaine est 3
-    if (e.currentTarget.id === "doze-thirty") {
-      setDate(date.slice(0, 8) + "30");
-      console.log(dayZeroButton.classList)
-      dayZeroButton.classList.add("active");
-    }
       
     e.currentTarget.classList.add("active");
   };
@@ -171,7 +165,7 @@ function App({
       } else {
         daysButtons.forEach((button) => {
           button.textContent === "0" ? button.disabled = false : button.disabled = true;
-          updatedDate.slice(9,10) === "1" ? 
+          updatedDate.slice(9,10) !== "0" ? 
           updatedDate = updatedDate.slice(0,9) + "0" : updatedDate
           setDate(updatedDate)
         });
@@ -205,7 +199,6 @@ function App({
       dayZeroButton.disabled = true
       updatedDate.slice(9,10) === "0" ? 
       updatedDate = updatedDate.slice(0,9) + "1" : updatedDate
-      console.log(updatedDate.slice(9,10))
       setDate(updatedDate)
     } else {
       dayZeroButton.disabled = false
