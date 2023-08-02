@@ -171,6 +171,9 @@ function App({
       } else {
         daysButtons.forEach((button) => {
           button.textContent === "0" ? button.disabled = false : button.disabled = true;
+          updatedDate.slice(9,10) === "1" ? 
+          updatedDate = updatedDate.slice(0,9) + "0" : updatedDate
+          setDate(updatedDate)
         });
       }
     } else {
