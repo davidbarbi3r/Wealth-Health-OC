@@ -6,15 +6,19 @@ interface AppProps {
   defaultDate?: string;
   wrapperHeigth?: string;
   wrapperWidth?: string;
+  showColumnIndex?: boolean;
 }
 
-function App({ 
+function App({
   locale = "fr",
   defaultDate,
   wrapperHeigth = "auto",
   wrapperWidth = "auto",
+  showColumnIndex = true,
 }: AppProps) {
-  const [date, setDate] = useState(defaultDate ? defaultDate : new Date().toISOString().slice(0, 10));
+  const [date, setDate] = useState(
+    defaultDate ? defaultDate : new Date().toISOString().slice(0, 10)
+  );
   const [isDateSelectorOpen, setIsDateSelectorOpen] = useState(false);
   const toggleDateSelector = () => {
     setIsDateSelectorOpen(!isDateSelectorOpen);
@@ -23,25 +27,40 @@ function App({
   const decades = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
   const years = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
   const longMonths = ["01", "03", "05", "07", "08", "10", "12"];
-  const dozeThirtyButton: HTMLButtonElement = document.querySelector('#doze-thirty') as HTMLButtonElement;
-  const dayNineButton: HTMLButtonElement = document.querySelector('#day-nine') as HTMLButtonElement;
-  const dayZeroButton: HTMLButtonElement = document.querySelector('#day-zero') as HTMLButtonElement;
-  const daysButtons: HTMLButtonElement[] = Array.from(document.querySelectorAll('[name="day-unit"]'));
+  const columnIndex = {
+    fr: ["Année", "Mois", "Jour"],
+    en: ["Year", "Month", "Day"],
+    es: ["Año", "Mes", "Día"],
+  };
+  const dozeThirtyButton: HTMLButtonElement = document.querySelector(
+    "#doze-thirty"
+  ) as HTMLButtonElement;
+  const dayNineButton: HTMLButtonElement = document.querySelector(
+    "#day-nine"
+  ) as HTMLButtonElement;
+  const dayZeroButton: HTMLButtonElement = document.querySelector(
+    "#day-zero"
+  ) as HTMLButtonElement;
+  const daysButtons: HTMLButtonElement[] = Array.from(
+    document.querySelectorAll('[name="day-unit"]')
+  );
 
   // style
-  
+
   useEffect(() => {
-    const datePickerWrapper: HTMLDivElement = document.querySelector(".date-selector__wrapper") as HTMLDivElement;
-    const yearWrapper: HTMLDivElement = document.querySelector(".date-selector__wrapper__year") as HTMLDivElement;
-    if (datePickerWrapper.style) { 
+    const datePickerWrapper: HTMLDivElement = document.querySelector(
+      ".date-selector__wrapper"
+    ) as HTMLDivElement;
+    const yearWrapper: HTMLDivElement = document.querySelector(
+      ".date-selector__wrapper__year"
+    ) as HTMLDivElement;
+    if (datePickerWrapper.style) {
       datePickerWrapper.style.height = wrapperHeigth;
       datePickerWrapper.style.width = wrapperWidth;
     }
     if (yearWrapper.style) {
-      console.log("test")
+      console.log("test");
     }
-
-    console.log(datePickerWrapper.childNodes);
   }, [wrapperHeigth, wrapperWidth, locale]);
 
   const isYearBisextile = (year: number) => {
@@ -58,7 +77,7 @@ function App({
     if (locale === "fr") {
       return `${day} ${months[locale][parseInt(month) - 1]} ${year}`;
     }
-    if (locale === "es"){
+    if (locale === "es") {
       return `${day} de ${months[locale][parseInt(month) - 1]} de ${year}`;
     }
 
@@ -119,7 +138,7 @@ function App({
       .forEach((button) => {
         button.classList.remove("active");
       });
-      
+
     e.currentTarget.classList.add("active");
   };
 
@@ -132,19 +151,31 @@ function App({
         setDate(updatedDate);
         break;
       case "year-decade":
-        updatedDate = date.slice(0, 2) + e.currentTarget.textContent + date.slice(3, 10);
+        updatedDate =
+          date.slice(0, 2) + e.currentTarget.textContent + date.slice(3, 10);
         setDate(updatedDate);
         break;
       case "year-unit":
-        updatedDate = date.slice(0, 3) + e.currentTarget.textContent + date.slice(4, 10);
+        updatedDate =
+          date.slice(0, 3) + e.currentTarget.textContent + date.slice(4, 10);
         setDate(updatedDate);
         break;
       case "month":
-        updatedDate = date.slice(0, 5) + (months[locale].indexOf(e.currentTarget.textContent as string) + 1 < 10 ? "0" + (months[locale].indexOf(e.currentTarget.textContent as string) + 1) : months[locale].indexOf(e.currentTarget.textContent as string) + 1).toString() + date.slice(7, 10);
+        updatedDate =
+          date.slice(0, 5) +
+          (months[locale].indexOf(e.currentTarget.textContent as string) + 1 <
+          10
+            ? "0" +
+              (months[locale].indexOf(e.currentTarget.textContent as string) +
+                1)
+            : months[locale].indexOf(e.currentTarget.textContent as string) + 1
+          ).toString() +
+          date.slice(7, 10);
         setDate(updatedDate);
         break;
       case "day-doze":
-        updatedDate = date.slice(0, 8) + e.currentTarget.textContent + date.slice(9, 10);
+        updatedDate =
+          date.slice(0, 8) + e.currentTarget.textContent + date.slice(9, 10);
         setDate(updatedDate);
         break;
       case "day-unit":
@@ -154,27 +185,28 @@ function App({
       default:
         break;
     }
-    
+
     daysButtons.forEach((button) => {
       button.disabled = false;
     });
 
     // si le mois est février
-     if (
-      updatedDate.slice(5, 7) === "02" ) {
+    if (updatedDate.slice(5, 7) === "02") {
       dozeThirtyButton.disabled = true;
 
       // si on est sur 30+ rediriger sur 20
-      if (updatedDate.slice(8,9) === "3"){
-        updatedDate = updatedDate.slice(0,8) + "28"
-        setDate(updatedDate)
+      if (updatedDate.slice(8, 9) === "3") {
+        updatedDate = updatedDate.slice(0, 8) + "28";
+        setDate(updatedDate);
       }
 
-      // si c'est pas bisextile et que la douzaine est 2 
-      if (!isYearBisextile(parseInt(updatedDate.slice(0, 4))) && 
-      updatedDate.slice(8, 9) === "2") {
+      // si c'est pas bisextile et que la douzaine est 2
+      if (
+        !isYearBisextile(parseInt(updatedDate.slice(0, 4))) &&
+        updatedDate.slice(8, 9) === "2"
+      ) {
         dayNineButton.disabled = true;
-        console.log(dayNineButton)
+        console.log(dayNineButton);
       } else {
         dayNineButton.disabled = false;
       }
@@ -187,30 +219,37 @@ function App({
       // si le mois est long
       if (longMonths.includes(updatedDate.slice(5, 7))) {
         daysButtons.forEach((button) => {
-          button.textContent === "0" || button.textContent === "1" ? button.disabled = false : button.disabled = true;
+          button.textContent === "0" || button.textContent === "1"
+            ? (button.disabled = false)
+            : (button.disabled = true);
+          parseInt(updatedDate.slice(9, 10)) > 1
+            ? (updatedDate = updatedDate.slice(0, 9) + "1")
+            : updatedDate;
+          setDate(updatedDate);
         });
       } else {
         daysButtons.forEach((button) => {
-          button.textContent === "0" ? button.disabled = false : button.disabled = true;
-          updatedDate.slice(9,10) !== "0" ? 
-          updatedDate = updatedDate.slice(0,9) + "0" : updatedDate
-          setDate(updatedDate)
+          button.textContent === "0"
+            ? (button.disabled = false)
+            : (button.disabled = true);
+          updatedDate.slice(9, 10) !== "0"
+            ? (updatedDate = updatedDate.slice(0, 9) + "0")
+            : updatedDate;
+          setDate(updatedDate);
         });
       }
-    } 
-    
-    // Si la douzaine jour est 0 et que le day unit est 0
-    if (
-      updatedDate.slice(8, 9) === "0"
-    ) {
-      dayZeroButton.disabled = true
-      updatedDate.slice(9,10) === "0" ? 
-      updatedDate = updatedDate.slice(0,9) + "1" : updatedDate
-      setDate(updatedDate)
-    } else {
-      dayZeroButton.disabled = false
     }
 
+    // Si la douzaine jour est 0 et que le day unit est 0
+    if (updatedDate.slice(8, 9) === "0") {
+      dayZeroButton.disabled = true;
+      updatedDate.slice(9, 10) === "0"
+        ? (updatedDate = updatedDate.slice(0, 9) + "1")
+        : updatedDate;
+      setDate(updatedDate);
+    } else {
+      dayZeroButton.disabled = false;
+    }
   };
 
   return (
@@ -225,11 +264,29 @@ function App({
           value={date}
           onChange={(e) => setDate(e.currentTarget.value)}
           placeholder="aaaa-mm-dd"
-          onClick={() => toggleDateSelector()}
         />
+        <div onClick={() => toggleDateSelector()}>{">"}</div>
         <div className={`date-selector ${isDateSelectorOpen ? "open" : ""}`}>
           <h2>Choose a date</h2>
           <div className="date-selector__wrapper">
+            {showColumnIndex ? (
+              <>
+                <div className="date-selector__wrapper__year__column-index">
+                  {columnIndex[locale][0]}
+                </div>
+                <div className="date-selector__wrapper__month__column-index">
+                  {columnIndex[locale][1]}
+                </div>
+                <div className="date-selector__wrapper__day__column-index">
+                  {columnIndex[locale][2]}
+                </div>
+              </>
+            ) : (
+              ""
+            )}
+            {/* {showColumnIndex ? <div className="date-selector__wrapper__year__column-index">{columnIndex[locale][0]}</div> : ""}
+              {showColumnIndex ? <div className="date-selector__wrapper__month__column-index">{columnIndex[locale][1]}</div> : ""}
+              {showColumnIndex ? <div className="date-selector__wrapper__day__column-index">{columnIndex[locale][2]}</div> : ""} */}
             <div className="date-selector__wrapper__year">
               <div className="date-selector__wrapper__year__century">
                 {centuries.map((century) => (
@@ -315,7 +372,15 @@ function App({
                     key={"day" + day}
                     onClick={(e) => dateSelector(e)}
                     className={day === date.slice(9, 10) ? "active" : ""}
-                    id={day === "9" ? "day-nine" : day === "1" ? "day-one" : day === "0" ? "day-zero" : ""}
+                    id={
+                      day === "9"
+                        ? "day-nine"
+                        : day === "1"
+                        ? "day-one"
+                        : day === "0"
+                        ? "day-zero"
+                        : ""
+                    }
                   >
                     {day}
                   </button>

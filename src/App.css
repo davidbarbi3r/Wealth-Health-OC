@@ -19,15 +19,25 @@
   
   margin-bottom: 2rem;
   border: 1px solid #ccc;
+}
 
-  width: 700px;
-  height: 500px;
+@media screen and (max-width: 768px) {
+  .date-selector__wrapper {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .date-selector__wrapper__year {
   display: grid;
   grid-column: 1/4;
   grid-template-columns: repeat(3, 1fr);
+  border-right: 1px solid #ccc;
+}
+
+.date-selector__wrapper__year__column-index {
+  display: grid;
+  grid-column: 1/4;
   border-right: 1px solid #ccc;
 }
 
@@ -52,10 +62,21 @@
   border-right: 1px solid #ccc;
 }
 
+.date-selector__wrapper__month__column-index {
+  display: grid;
+  grid-column: 4;
+  border-right: 1px solid #ccc;
+}
+
 .date-selector__wrapper__day {
   display: grid;
   grid-column: 5/7;
   grid-template-columns: repeat(2, 1fr);
+}
+
+.date-selector__wrapper__day__column-index {
+  display: grid;
+  grid-column: 5/7;
 }
 
 .date-selector__wrapper__day__doze {
