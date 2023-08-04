@@ -15,30 +15,23 @@
 
 .date-selector__wrapper {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: 50% 20% 30%;
+  grid-template-rows: min-content;
+  grid-template-areas: "year-title month-title day-title" "year month day";
   
   margin-bottom: 2rem;
   border: 1px solid #ccc;
 }
 
-@media screen and (max-width: 768px) {
-  .date-selector__wrapper {
-    display: flex;
-    flex-direction: column;
-  }
-}
-
 .date-selector__wrapper__year {
   display: grid;
-  grid-column: 1/4;
   grid-template-columns: repeat(3, 1fr);
-  border-right: 1px solid #ccc;
+  grid-area: year;
 }
 
 .date-selector__wrapper__year__column-index {
   display: grid;
-  grid-column: 1/4;
-  border-right: 1px solid #ccc;
+  grid-area: year-title;
 }
 
 .date-selector__wrapper__year__century {
@@ -58,25 +51,27 @@
 
 .date-selector__wrapper__month {
   display: grid;
-  grid-column: 4;
   border-right: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  grid-area: month;
 }
 
 .date-selector__wrapper__month__column-index {
   display: grid;
-  grid-column: 4;
   border-right: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  grid-area: month-title;
 }
 
 .date-selector__wrapper__day {
   display: grid;
-  grid-column: 5/7;
   grid-template-columns: repeat(2, 1fr);
+  grid-area: day;
 }
 
 .date-selector__wrapper__day__column-index {
   display: grid;
-  grid-column: 5/7;
+  grid-area: day-title;
 }
 
 .date-selector__wrapper__day__doze {
@@ -94,7 +89,49 @@ button.active {
   color: #fff;
 }
 
-button.disabled {
-  background-color: red;
-  color: #fff;
+@media (max-width: 768px) {
+  .date-selector__wrapper {
+    position: relative;
+    min-width: 300px;
+  }
+
+  .date-selector__wrapper__year {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    z-index: 1;
+  }
+
+  .date-selector__wrapper__year__column-index {
+    position: absolute;
+  }
+
+  .date-selector__wrapper__month {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    z-index: 0;
+  }
+
+  .date-selector__wrapper__month__column-index {
+    position: absolute;
+  }
+
+  .date-selector__wrapper__day {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    grid-template-columns: repeat(2, 1fr);
+    z-index: 0;
+  }
 }

@@ -12,8 +12,8 @@ interface AppProps {
 function App({
   locale = "fr",
   defaultDate,
-  wrapperHeigth = "auto",
-  wrapperWidth = "auto",
+  wrapperHeigth = "400px",
+  wrapperWidth = "650px",
   showColumnIndex = true,
 }: AppProps) {
   const [date, setDate] = useState(
@@ -55,6 +55,7 @@ function App({
       ".date-selector__wrapper__year"
     ) as HTMLDivElement;
     if (datePickerWrapper.style) {
+      locale !== "en" && (datePickerWrapper.style.gridTemplateAreas = `"day-title month-title year-title" "day month year"`, datePickerWrapper.style.gridTemplateColumns = "30% 20% 50%")
       datePickerWrapper.style.height = wrapperHeigth;
       datePickerWrapper.style.width = wrapperWidth;
     }
@@ -138,7 +139,6 @@ function App({
       .forEach((button) => {
         button.classList.remove("active");
       });
-
     e.currentTarget.classList.add("active");
   };
 
@@ -256,14 +256,13 @@ function App({
     <>
       <form>
         <label htmlFor="name">Date:</label>
-        {/* <input type="date" id="date" name="date" /> */}
         <input
           type="text"
           id="date"
           name="date"
           value={date}
           onChange={(e) => setDate(e.currentTarget.value)}
-          placeholder="aaaa-mm-dd"
+          pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
         />
         <div onClick={() => toggleDateSelector()}>{">"}</div>
         <div className={`date-selector ${isDateSelectorOpen ? "open" : ""}`}>
@@ -284,9 +283,6 @@ function App({
             ) : (
               ""
             )}
-            {/* {showColumnIndex ? <div className="date-selector__wrapper__year__column-index">{columnIndex[locale][0]}</div> : ""}
-              {showColumnIndex ? <div className="date-selector__wrapper__month__column-index">{columnIndex[locale][1]}</div> : ""}
-              {showColumnIndex ? <div className="date-selector__wrapper__day__column-index">{columnIndex[locale][2]}</div> : ""} */}
             <div className="date-selector__wrapper__year">
               <div className="date-selector__wrapper__year__century">
                 {centuries.map((century) => (
@@ -389,7 +385,7 @@ function App({
             </div>
           </div>
         </div>
-        <h1>{formatDate(date)}</h1>
+        <h3>{formatDate(date)}</h3>
       </form>
     </>
   );
