@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
 import "./App.css";
+import useDebounce from "./useDebounce";
 
 interface AppProps {
   locale?: "en" | "fr" | "es";
   defaultDate?: string;
-  wrapperHeigth?: string;
+  wrapperHeight?: string;
   wrapperWidth?: string;
   showColumnIndex?: boolean;
 }
@@ -12,7 +13,7 @@ interface AppProps {
 function App({
   locale = "fr",
   defaultDate,
-  wrapperHeigth = "400px",
+  wrapperHeight = "400px",
   wrapperWidth = "650px",
   showColumnIndex = true,
 }: AppProps) {
@@ -44,8 +45,10 @@ function App({
   const daysButtons: HTMLButtonElement[] = Array.from(
     document.querySelectorAll('[name="day-unit"]')
   );
+  const debounceDelay = 1000;
 
-  // style
+  const debouncedDate = useDebounce(date, debounceDelay);
+
 
   useEffect(() => {
     const datePickerWrapper: HTMLDivElement = document.querySelector(
@@ -56,13 +59,13 @@ function App({
     ) as HTMLDivElement;
     if (datePickerWrapper.style) {
       locale !== "en" && (datePickerWrapper.style.gridTemplateAreas = `"day-title month-title year-title" "day month year"`, datePickerWrapper.style.gridTemplateColumns = "30% 20% 50%")
-      datePickerWrapper.style.height = wrapperHeigth;
+      datePickerWrapper.style.height = wrapperHeight;
       datePickerWrapper.style.width = wrapperWidth;
     }
     if (yearWrapper.style) {
       console.log("test");
     }
-  }, [wrapperHeigth, wrapperWidth, locale]);
+  }, [wrapperHeight, wrapperWidth, locale]);
 
   const isYearBisextile = (year: number) => {
     return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
@@ -133,6 +136,11 @@ function App({
   const doze = ["0", "1", "2", "3"];
   const days = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setDate(e.currentTarget.value);
+  };
+  
+
   const setActive = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.parentElement
       ?.querySelectorAll("button")
@@ -141,6 +149,14 @@ function App({
       });
     e.currentTarget.classList.add("active");
   };
+
+  useEffect(() => {
+    if (/^\d{4}-\d{2}-\d{2}$/.test(debouncedDate)) {
+      setDate(debouncedDate);
+    } else {
+      console.log("Invalid date format");
+    }
+  }, [debouncedDate]);
 
   const dateSelector = (e: React.MouseEvent<HTMLButtonElement>) => {
     let updatedDate = date;
@@ -261,7 +277,7 @@ function App({
           id="date"
           name="date"
           value={date}
-          onChange={(e) => setDate(e.currentTarget.value)}
+          onChange={handleDateChange}
           pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
         />
         <div onClick={() => toggleDateSelector()}>{">"}</div>
