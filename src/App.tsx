@@ -134,7 +134,6 @@ function App({
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setDate(e.currentTarget.value);
   };
-  
 
   const setActive = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.parentElement
@@ -152,6 +151,70 @@ function App({
       console.log("Invalid date format");
     }
   }, [debouncedDate]);
+
+  function handleDayZeroAndDozenZero (date: string) {
+    if (date.slice(8, 9) === "0") {
+      dayZeroButton.current!.disabled = true;
+      date.slice(9, 10) === "0"
+          ? (date = date.slice(0, 9) + "1")
+          : date;
+      setDate(date);
+    } else {
+      dayZeroButton.current!.disabled = false;
+    }
+  }
+
+  function handleDozenThree (date: string) {
+    if (date.slice(8, 9) === "3") {
+      // si le mois est long
+      if (longMonths.includes(date.slice(5, 7))) {
+        daysButtons.forEach((button) => {
+          button.textContent === "0" || button.textContent === "1"
+              ? (button.disabled = false)
+              : (button.disabled = true);
+          parseInt(date.slice(9, 10)) > 1
+              ? (date = date.slice(0, 9) + "1")
+              : date;
+          setDate(date);
+        });
+      } else {
+        daysButtons.forEach((button) => {
+          button.textContent === "0"
+              ? (button.disabled = false)
+              : (button.disabled = true);
+          date.slice(9, 10) !== "0"
+              ? (date = date.slice(0, 9) + "0")
+              : date;
+          setDate(date);
+        });
+      }
+    }
+  }
+
+  function handleFebruary (date:string) {
+    if (date.slice(5, 7) === "02") {
+      dozeThirtyButton.current!.disabled = true;
+
+      // si on est sur 30+ rediriger sur 20
+      if (date.slice(8, 9) === "3") {
+        date = date.slice(0, 8) + "28";
+        setDate(date);
+      }
+
+      // si c'est pas bisextile et que la douzaine est 2
+      if (
+          !isYearBisextile(parseInt(date.slice(0, 4))) &&
+          date.slice(8, 9) === "2"
+      ) {
+        dayNineButton.current!.disabled = true;
+        console.log(dayNineButton);
+      } else {
+        dayNineButton.current!.disabled = false;
+      }
+    } else {
+      dozeThirtyButton.current!.disabled = false;
+    }
+  }
 
   const dateSelector = (e: React.MouseEvent<HTMLButtonElement>) => {
     let updatedDate = date;
@@ -202,65 +265,13 @@ function App({
     });
 
     // si le mois est février
-    if (updatedDate.slice(5, 7) === "02") {
-      dozeThirtyButton.current!.disabled = true;
-
-      // si on est sur 30+ rediriger sur 20
-      if (updatedDate.slice(8, 9) === "3") {
-        updatedDate = updatedDate.slice(0, 8) + "28";
-        setDate(updatedDate);
-      }
-
-      // si c'est pas bisextile et que la douzaine est 2
-      if (
-        !isYearBisextile(parseInt(updatedDate.slice(0, 4))) &&
-        updatedDate.slice(8, 9) === "2"
-      ) {
-        dayNineButton.current!.disabled = true;
-        console.log(dayNineButton);
-      } else {
-        dayNineButton.current!.disabled = false;
-      }
-    } else {
-      dozeThirtyButton.current!.disabled = false;
-    }
+    handleFebruary(updatedDate)
 
     // si la douzaine est 3
-    if (updatedDate.slice(8, 9) === "3") {
-      // si le mois est long
-      if (longMonths.includes(updatedDate.slice(5, 7))) {
-        daysButtons.forEach((button) => {
-          button.textContent === "0" || button.textContent === "1"
-            ? (button.disabled = false)
-            : (button.disabled = true);
-          parseInt(updatedDate.slice(9, 10)) > 1
-            ? (updatedDate = updatedDate.slice(0, 9) + "1")
-            : updatedDate;
-          setDate(updatedDate);
-        });
-      } else {
-        daysButtons.forEach((button) => {
-          button.textContent === "0"
-            ? (button.disabled = false)
-            : (button.disabled = true);
-          updatedDate.slice(9, 10) !== "0"
-            ? (updatedDate = updatedDate.slice(0, 9) + "0")
-            : updatedDate;
-          setDate(updatedDate);
-        });
-      }
-    }
+    handleDozenThree(updatedDate)
 
     // Si la douzaine jour est 0 et que le day unit est 0
-    if (updatedDate.slice(8, 9) === "0") {
-      dayZeroButton.current!.disabled = true;
-      updatedDate.slice(9, 10) === "0"
-        ? (updatedDate = updatedDate.slice(0, 9) + "1")
-        : updatedDate;
-      setDate(updatedDate);
-    } else {
-      dayZeroButton.current!.disabled = false;
-    }
+    handleDayZeroAndDozenZero(updatedDate)
   };
 
   return (
