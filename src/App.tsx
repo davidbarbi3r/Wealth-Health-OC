@@ -1,4 +1,4 @@
-import { useEffect, useState} from "react";
+import { useEffect, useState, useRef} from "react";
 import "./App.css";
 import useDebounce from "./useDebounce";
 
@@ -33,15 +33,10 @@ function App({
     en: ["Year", "Month", "Day"],
     es: ["Año", "Mes", "Día"],
   };
-  const dozeThirtyButton: HTMLButtonElement = document.querySelector(
-    "#doze-thirty"
-  ) as HTMLButtonElement;
-  const dayNineButton: HTMLButtonElement = document.querySelector(
-    "#day-nine"
-  ) as HTMLButtonElement;
-  const dayZeroButton: HTMLButtonElement = document.querySelector(
-    "#day-zero"
-  ) as HTMLButtonElement;
+  const dozeThirtyButton = useRef<HTMLButtonElement>(null);
+  const dayNineButton = useRef<HTMLButtonElement>(null);
+  const dayZeroButton = useRef<HTMLButtonElement>(null);
+  const dayOneButton = useRef<HTMLButtonElement>(null);
   const daysButtons: HTMLButtonElement[] = Array.from(
     document.querySelectorAll('[name="day-unit"]')
   );
@@ -208,7 +203,7 @@ function App({
 
     // si le mois est février
     if (updatedDate.slice(5, 7) === "02") {
-      dozeThirtyButton.disabled = true;
+      dozeThirtyButton.current!.disabled = true;
 
       // si on est sur 30+ rediriger sur 20
       if (updatedDate.slice(8, 9) === "3") {
@@ -221,13 +216,13 @@ function App({
         !isYearBisextile(parseInt(updatedDate.slice(0, 4))) &&
         updatedDate.slice(8, 9) === "2"
       ) {
-        dayNineButton.disabled = true;
+        dayNineButton.current!.disabled = true;
         console.log(dayNineButton);
       } else {
-        dayNineButton.disabled = false;
+        dayNineButton.current!.disabled = false;
       }
     } else {
-      dozeThirtyButton.disabled = false;
+      dozeThirtyButton.current!.disabled = false;
     }
 
     // si la douzaine est 3
@@ -258,13 +253,13 @@ function App({
 
     // Si la douzaine jour est 0 et que le day unit est 0
     if (updatedDate.slice(8, 9) === "0") {
-      dayZeroButton.disabled = true;
+      dayZeroButton.current!.disabled = true;
       updatedDate.slice(9, 10) === "0"
         ? (updatedDate = updatedDate.slice(0, 9) + "1")
         : updatedDate;
       setDate(updatedDate);
     } else {
-      dayZeroButton.disabled = false;
+      dayZeroButton.current!.disabled = false;
     }
   };
 
@@ -370,7 +365,7 @@ function App({
                     className={
                       doz.slice(0, 1) === date.slice(8, 9) ? "active" : ""
                     }
-                    id={doz === "3" ? "doze-thirty" : ""}
+                    ref={doz === "3" ? dozeThirtyButton : null}
                   >
                     {doz}
                   </button>
@@ -384,15 +379,13 @@ function App({
                     key={"day" + day}
                     onClick={(e) => dateSelector(e)}
                     className={day === date.slice(9, 10) ? "active" : ""}
-                    id={
-                      day === "9"
-                        ? "day-nine"
+                    ref={day === "9"
+                        ? dayNineButton
                         : day === "1"
-                        ? "day-one"
+                        ? dayOneButton
                         : day === "0"
-                        ? "day-zero"
-                        : ""
-                    }
+                        ? dayZeroButton
+                        : null}
                   >
                     {day}
                   </button>
