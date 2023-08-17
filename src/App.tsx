@@ -40,6 +40,7 @@ function App({
   const daysButtons: HTMLButtonElement[] = Array.from(
     document.querySelectorAll('[name="day-unit"]')
   );
+  const [stepper, setStepper] = useState<number>(1)
   const debounceDelay = 1000;
 
   const debouncedDate = useDebounce(date, debounceDelay);
@@ -79,9 +80,29 @@ function App({
     if (locale === "es") {
       return `${day} de ${months[locale][parseInt(month) - 1]} de ${year}`;
     }
-
     return `${day} ${months[locale][parseInt(month) - 1]} ${year}`;
   };
+
+  const nextStep = () => {
+    setStepper((step) => {
+      if (step = 3){
+        return 3
+      }
+      return step + 1
+    })
+    console.log(stepper)
+  }
+
+  const prevStep = () => {
+    setStepper((step) => {
+          if (step = 1) {
+            return 1
+          }
+          return step - 1;
+        }
+    )
+    console.log(stepper)
+  }
 
   const months = {
     en: [
@@ -274,6 +295,7 @@ function App({
     handleDayZeroAndDozenZero(updatedDate)
   };
 
+  // @ts-ignore
   return (
     <>
       <form>
@@ -290,6 +312,10 @@ function App({
         <div className={`date-selector ${isDateSelectorOpen ? "open" : ""}`}>
           <h2>Choose a date</h2>
           <div className="date-selector__wrapper">
+            <div className="date-selector__mobile-nav">
+              <span className="date-selector__mobile-nav-left" onClick={prevStep}>gauche</span>
+              <span className="date-selector__mobile-nav-right" onClick={nextStep}>droite</span>
+            </div>
             {showColumnIndex ? (
               <>
                 <div className="date-selector__wrapper__year__column-index">

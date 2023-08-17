@@ -84,54 +84,61 @@
   grid-template-rows: 3;
 }
 
+.date-selector__mobile-nav {
+  display: none;
+}
+
 button.active {
   background-color: #767575;
   color: #fff;
 }
 
 @media (max-width: 768px) {
+  .date-selector__mobile-nav {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    position: absolute;
+    top: 0;
+  }
+
+  .date-selector__mobile-nav-right {
+    float: right;
+  }
   .date-selector__wrapper {
     position: relative;
     min-width: 300px;
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
   }
 
   .date-selector__wrapper__year {
-    position: absolute;
-    top: 0;
-    left: 0;
     display: grid;
+    flex-grow: 1;
     grid-template-columns: repeat(3, 1fr);
     z-index: 1;
   }
 
   .date-selector__wrapper__year__column-index {
-    position: absolute;
   }
 
   .date-selector__wrapper__month {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
+    display: none;
     border-right: 1px solid #ccc;
     border-left: 1px solid #ccc;
-    z-index: 0;
   }
 
   .date-selector__wrapper__month__column-index {
-    position: absolute;
+    display: none;
   }
 
   .date-selector__wrapper__day {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    grid-template-columns: repeat(2, 1fr);
-    z-index: 0;
+    display: none;
+  }
+
+  .date-selector__wrapper__day__column-index {
+    display: none;
   }
 }
