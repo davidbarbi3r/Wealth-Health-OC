@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef} from "react";
 import "./App.css";
-import useDebounce from "./useDebounce";
+import {Simulate} from "react-dom/test-utils";
+import error = Simulate.error;
 
 interface AppProps {
   locale?: "en" | "fr" | "es";
@@ -21,6 +22,7 @@ function App({
     defaultDate ? defaultDate : new Date().toISOString().slice(0, 10)
   );
   const [isDateSelectorOpen, setIsDateSelectorOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("")
   const toggleDateSelector = () => {
     setIsDateSelectorOpen(!isDateSelectorOpen);
   };
@@ -41,9 +43,6 @@ function App({
     document.querySelectorAll('[name="day-unit"]')
   );
   const [stepper, setStepper] = useState<number>(1)
-  const debounceDelay = 1000;
-
-  const debouncedDate = useDebounce(date, debounceDelay);
 
 
   useEffect(() => {
@@ -153,7 +152,16 @@ function App({
   const days = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setDate(e.currentTarget.value);
+    const newDate = e.currentTarget.value;
+
+    const dateRegex = /^(19|20|21)[0-9]{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+    if (!dateRegex.test(newDate)) {
+      setErrorMessage('Please enter a valid date in YYYY-MM-DD format.');
+    } else {
+      setErrorMessage('');
+    }
+
+    setDate(e.currentTarget.value);
   };
 
   const setActive = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -164,14 +172,6 @@ function App({
       });
     e.currentTarget.classList.add("active");
   };
-
-  useEffect(() => {
-    if (/^\d{4}-\d{2}-\d{2}$/.test(debouncedDate)) {
-      setDate(debouncedDate);
-    } else {
-      console.log("Invalid date format");
-    }
-  }, [debouncedDate]);
 
   function handleDayZeroAndDozenZero (date: string) {
     if (date.slice(8, 9) === "0") {
@@ -308,6 +308,7 @@ function App({
           onChange={handleDateChange}
           pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
         />
+        {errorMessage && <p>{errorMessage}</p>}
         <div onClick={() => toggleDateSelector()}>{">"}</div>
         <div className={`date-selector ${isDateSelectorOpen ? "open" : ""}`}>
           <h2>Choose a date</h2>
