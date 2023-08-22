@@ -1,7 +1,5 @@
 import { useEffect, useState, useRef} from "react";
 import "./App.css";
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
 
 interface AppProps {
   locale?: "en" | "fr" | "es";
@@ -12,7 +10,7 @@ interface AppProps {
 }
 
 function App({
-  locale = "fr",
+  locale = "es",
   defaultDate,
   wrapperHeight = "400px",
   wrapperWidth = "650px",
@@ -44,7 +42,6 @@ function App({
   );
   const [stepper, setStepper] = useState<number>(1)
 
-
   useEffect(() => {
     const datePickerWrapper: HTMLDivElement = document.querySelector(
       ".date-selector__wrapper"
@@ -66,20 +63,33 @@ function App({
     return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
   };
 
-  const formatDate = (date: string) => {
+  const formatDate = (date: string, isInput: boolean = false) => {
     const year = date.slice(0, 4);
     const month = date.slice(5, 7);
     const day = date.slice(8, 10);
-    if (locale === "en") {
-      return `${months[locale][parseInt(month) - 1]} ${day}, ${year}`;
+
+    switch (locale) {
+      case "en":
+        if (isInput){
+          return `${month}-${parseInt(day) < 10 ? '0'+day : day}-${year}`
+        }
+        return `${months[locale][parseInt(month) - 1]} ${day}, ${year}`;
+      case "fr":
+        if (isInput){
+          return `${parseInt(day) < 10 ? '0'+day : day}-${month}-${year}`
+        }
+        return `${day} ${months[locale][parseInt(month) - 1]} ${year}`;
+      case "es":
+        if (isInput){
+          return `${parseInt(day) < 10 ? '0'+day : day}-${month}-${year}`
+        }
+        return `${day} de ${months[locale][parseInt(month) - 1]} de ${year}`
+      default:
+        if (isInput){
+          return `${month}-${parseInt(day) < 10 ? '0'+day : day}-${year}`
+        }
+        return `${months[locale][parseInt(month) - 1]} ${day}, ${year}`;
     }
-    if (locale === "fr") {
-      return `${day} ${months[locale][parseInt(month) - 1]} ${year}`;
-    }
-    if (locale === "es") {
-      return `${day} de ${months[locale][parseInt(month) - 1]} de ${year}`;
-    }
-    return `${day} ${months[locale][parseInt(month) - 1]} ${year}`;
   };
 
   const nextStep = () => {
@@ -153,8 +163,15 @@ function App({
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newDate = e.currentTarget.value;
+    console.log(locale)
+    let dateRegex;
+    switch (locale) {
+      case "en":
+        dateRegex = /^(19|20|21)[0-9]{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/
+      default:
+        dateRegex = /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(19|20|21)[0-9]{2}$/
+    }
 
-    const dateRegex = /^(19|20|21)[0-9]{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
     if (!dateRegex.test(newDate)) {
       setErrorMessage('Please enter a valid date in YYYY-MM-DD format.');
     } else {
@@ -295,7 +312,12 @@ function App({
     handleDayZeroAndDozenZero(updatedDate)
   };
 
-  // @ts-ignore
+  if (window.matchMedia("(max-width: 767px)").matches) {
+    return (
+        <p>mobile</p>
+    )
+  }
+
   return (
     <>
       <form>
@@ -304,8 +326,8 @@ function App({
           type="text"
           id="date"
           name="date"
-          value={date}
-          onChange={handleDateChange}
+          value={formatDate(date, true)}
+          onChange={(e) => handleDateChange(e)}
           pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
         />
         {errorMessage && <p>{errorMessage}</p>}
