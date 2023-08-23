@@ -5,12 +5,28 @@
   text-align: center;
 }
 
-.date-selector {
-  display: none;
+.open {
+  display: block !important;
 }
 
-.open {
-  display: block;
+.modal {
+  display: none; /* By default the modal is hidden */
+  position: fixed; /* Fixed position */
+  top: 0;
+  left: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgba(0,0,0,0.5); /* Semi-transparent background */
+  z-index: 1000; /* Ensure it appears above other content */
+}
+
+.modal-content {
+  background-color: #ffffff;
+  margin: 15% auto; /* Center the box */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
 .date-selector__wrapper {
@@ -94,6 +110,11 @@ button.active {
 }
 
 @media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    margin: 10% auto;
+  }
+
   .date-selector__mobile-nav {
     display: flex;
     justify-content: space-between;
@@ -121,24 +142,17 @@ button.active {
     z-index: 1;
   }
 
-  .date-selector__wrapper__year__column-index {
-  }
-
   .date-selector__wrapper__month {
-    display: none;
+    flex-grow: 1;
     border-right: 1px solid #ccc;
     border-left: 1px solid #ccc;
   }
 
-  .date-selector__wrapper__month__column-index {
-    display: none;
-  }
-
   .date-selector__wrapper__day {
-    display: none;
+    flex-grow: 1;
   }
 
-  .date-selector__wrapper__day__column-index {
+  .hidden {
     display: none;
   }
 }
