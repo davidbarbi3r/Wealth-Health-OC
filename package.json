@@ -1,7 +1,9 @@
 {
-  "name": "wealth-health-oc",
-  "private": true,
-  "version": "0.0.0",
+  "name": "gnarly-date-picker",
+  "author": "gnark <davidbarbi3r@gmail.com>",
+  "private": false,
+  "license": "ISC",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
