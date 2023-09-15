@@ -8,7 +8,7 @@
     "declaration": true,
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",  // Change to "node"
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -19,8 +19,16 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{ "path": "./tsconfig.node.json" }],
+
+  // Add the "baseUrl" and "paths" settings
+  "baseUrl": "./",  // Change to the root directory of your project
+  "paths": {
+    "gnarly-date-picker": ["dist/GnarlyDatePicker.d.ts"]
+    // Adjust the path to match the actual location of GnarlyDatePicker.d.ts
+  }
 }

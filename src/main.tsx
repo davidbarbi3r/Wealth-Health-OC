@@ -4,7 +4,9 @@ import GnarlyDatePicker from './GnarlyDatePicker.tsx'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <GnarlyDatePicker />
-  </React.StrictMode>,
-)
+        <React.StrictMode>
+            <GnarlyDatePicker/>
+        </React.StrictMode>,
+    )
+
+
