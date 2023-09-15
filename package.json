@@ -3,7 +3,7 @@
   "author": "gnark <davidbarbi3r@gmail.com>",
   "private": false,
   "license": "ISC",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "type": "module",
   "exports": "./src/GnarlyDatePicker.tsx",
   "scripts": {
