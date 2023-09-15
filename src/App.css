@@ -5,27 +5,40 @@
   text-align: center;
 }
 
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.relative {
+  position: relative;
+}
+
+.float {
+  float: right;
+}
+
+.rotate {
+  transform: rotate(90deg);
+}
+
+.button {
+  cursor: pointer;
+}
+
 .open {
   display: block !important;
 }
 
 .modal {
-  display: none; /* By default the modal is hidden */
-  position: fixed; /* Fixed position */
-  top: 0;
-  left: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  background-color: rgba(0,0,0,0.5); /* Semi-transparent background */
-  z-index: 1000; /* Ensure it appears above other content */
+  display: none;
+  position: absolute;
 }
 
 .modal-content {
   background-color: #ffffff;
-  margin: 15% auto; /* Center the box */
-  padding: 20px;
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
@@ -34,8 +47,6 @@
   grid-template-columns: 50% 20% 30%;
   grid-template-rows: min-content;
   grid-template-areas: "year-title month-title day-title" "year month day";
-  
-  margin-bottom: 2rem;
   border: 1px solid #ccc;
 }
 
@@ -109,12 +120,7 @@ button.active {
   color: #fff;
 }
 
-@media (max-width: 768px) {
-  .modal-content {
-    width: 95%;
-    margin: 10% auto;
-  }
-
+@media (max-width: 5000px) {
   .date-selector__mobile-nav {
     display: flex;
     justify-content: space-between;

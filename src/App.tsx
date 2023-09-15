@@ -1,15 +1,23 @@
 import { useEffect, useState, useRef} from "react";
+import arrowRight from "./assets/arrow-narrow-right.svg"
+import arrowLeft from "./assets/arrow-narrow-left.svg"
 import "./App.css";
 
 interface AppProps {
+  name?: string;
+  label?: string;
   defaultDate?: string;
+  displayDateText?: boolean;
   wrapperHeight?: string;
   wrapperWidth?: string;
   showColumnIndex?: boolean;
 }
 
 function App({
+  name = "date",
+  label,
   defaultDate,
+  displayDateText = false,
   wrapperHeight = "auto",
   wrapperWidth = "auto",
   showColumnIndex = true,
@@ -70,20 +78,7 @@ function App({
     else if (currentView === 'DAY') setCurrentView('MONTH');
   }
 
-  const months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December",];
 
   const doze = ["0", "1", "2", "3"];
   const days = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
@@ -235,27 +230,33 @@ function App({
 
   return (
     <>
-      <form>
-        <label htmlFor="name">Date:</label>
-        <input
-          type="text"
-          id="date"
-          name="date"
-          value={date}
-          onChange={(e) => {
-            handleDateChange(e);
-          }}
-          pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
-        />
-        {errorMessage && <p>{errorMessage}</p>}
-        <div onClick={() => toggleDateSelector()}>{">"}</div>
+        {label ? <label htmlFor="strange-date">{label}:</label> : ""}
+        <div className={"container relative"}>
+          <input
+            type="text"
+            id={name}
+            name={name}
+            value={date}
+            onChange={(e) => {
+              handleDateChange(e);
+            }}
+            pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+          />
+          {errorMessage && <p>{errorMessage}</p>}
+          <div className={`container float ${isDateSelectorOpen && 'rotate'}`} onClick={() => toggleDateSelector()}>
+              <img src={arrowRight} width={20} height={20} alt="arrow-right" />
+          </div>
+        </div>
         <div className={`modal ${isDateSelectorOpen ? "open" : ""}`}>
           <div className={`modal-content ${isDateSelectorOpen ? "open" : ""}`}>
-            <h2>Choose a date</h2>
             <div className="date-selector__wrapper">
               <div className="date-selector__mobile-nav">
-                <span className="date-selector__mobile-nav-left" onClick={prevStep}>gauche</span>
-                <span className="date-selector__mobile-nav-right" onClick={nextStep}>droite</span>
+                <span className="date-selector__mobile-nav-left button" onClick={prevStep}>
+                  <img src={arrowLeft} alt={"arrow-left"}/>
+                </span>
+                <span className="date-selector__mobile-nav-right button" onClick={nextStep}>
+                  <img src={arrowRight} alt={"arrow-right"}/>
+                </span>
               </div>
               {showColumnIndex ? (
                 <>
@@ -373,8 +374,7 @@ function App({
             </div>
           </div>
         </div>
-        <h3>{formatDate(date)}</h3>
-      </form>
+        {displayDateText ? <h3>{formatDate(date)}</h3> : ""}
     </>
   );
 }
