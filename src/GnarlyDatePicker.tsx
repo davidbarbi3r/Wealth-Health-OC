@@ -13,7 +13,7 @@ interface AppProps {
   showColumnIndex?: boolean;
 }
 
-function App({
+function GnarlyDatePicker({
   name = "date",
   label,
   defaultDate,
@@ -379,4 +379,4 @@ function App({
   );
 }
 
-export default App;
+export default GnarlyDatePicker;
