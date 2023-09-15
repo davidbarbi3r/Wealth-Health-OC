@@ -3,7 +3,7 @@
   "author": "gnark <davidbarbi3r@gmail.com>",
   "private": false,
   "license": "ISC",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "type": "module",
   "main": "dist/gnarly-date-picker.umd.js",
   "module": "dist/gnarly-date-picker.es.js",
@@ -13,7 +13,7 @@
       "import": "./dist/gnarly-date-picker.es.js",
       "require": "./dist/gnarly-date-picker.umd.js",
       "types": "./dist/GnarlyDatePicker.d.ts",
-        "default": "./dist/gnarly-date-picker.umd.js"
+        "default": "./dist/gnarly-date-picker.es.js"
     }
   },
   "scripts": {
