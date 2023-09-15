@@ -11,7 +11,7 @@ const App = () => {
     );
 };
 
-export {App, GnarlyDatePicker}; // Export the default component
+export default App; // Export the default component
 
 ReactDOM.createRoot(document.getElementById('root')!).render(<App />);
 
