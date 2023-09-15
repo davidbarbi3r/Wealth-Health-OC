@@ -34,6 +34,8 @@
 .modal {
   display: none;
   position: absolute;
+  background-color: #ffffff;
+  opacity: 100;
 }
 
 .modal-content {
