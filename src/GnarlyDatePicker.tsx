@@ -11,6 +11,7 @@ interface AppProps {
   wrapperHeight?: string;
   wrapperWidth?: string;
   showColumnIndex?: boolean;
+  inputClassName?: string;
 }
 
 function GnarlyDatePicker({
@@ -21,6 +22,7 @@ function GnarlyDatePicker({
   wrapperHeight = "auto",
   wrapperWidth = "auto",
   showColumnIndex = true,
+  inputClassName = ""
 }: AppProps) {
   const [date, setDate] = useState(
     defaultDate ? defaultDate : new Date().toISOString().slice(0, 10)
@@ -85,7 +87,6 @@ function GnarlyDatePicker({
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newDate = e.currentTarget.value;
-    console.log()
     const dateRegex = /^(19|20|21)[0-9]{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/
 
     if (!dateRegex.test(newDate)) {
@@ -234,6 +235,7 @@ function GnarlyDatePicker({
         <div className={"container relative"}>
           <input
             type="text"
+            className={inputClassName}
             id={name}
             name={name}
             value={date}
