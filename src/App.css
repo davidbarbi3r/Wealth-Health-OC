@@ -50,6 +50,7 @@
   grid-template-rows: min-content;
   grid-template-areas: "year-title month-title day-title" "year month day";
   border: 1px solid #ccc;
+  z-index: 100;
 }
 
 .date-selector__wrapper__year {
