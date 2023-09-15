@@ -14,7 +14,7 @@ interface AppProps {
   inputClassName?: string;
 }
 
-function GnarlyDatePicker({
+export function GnarlyDatePicker({
   name = "date",
   label,
   defaultDate,
@@ -380,5 +380,3 @@ function GnarlyDatePicker({
     </>
   );
 }
-
-export default GnarlyDatePicker;

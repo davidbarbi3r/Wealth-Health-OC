@@ -6,20 +6,22 @@ import dts from "vite-plugin-dts";
 export default defineConfig({
     build: {
         lib: {
-            entry: resolve(__dirname, 'src/main.tsx'),
-            name: 'GnarlyDatePicker',
-            fileName: (format) => `gnarly-date-picker.${format}.js`
+            entry: resolve(__dirname, "index.ts"),
+            name: "GnarlyDatePicker",
+            fileName: (format) => `index.${format}.js`,
         },
         rollupOptions: {
-            external: ['react', 'react-dom'],
+            external: ["react", "react-dom"],
             output: {
                 globals: {
-                    react: 'React',
-                    'react-dom': 'ReactDOM',
+                    react: "React",
+                    "react-dom": "ReactDOM",
                 },
             },
         },
+        sourcemap: true,
+        emptyOutDir: true,
     },
     plugins: [react(), dts()],
-})
+});
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import GnarlyDatePicker from './GnarlyDatePicker.tsx'
+import {GnarlyDatePicker} from './GnarlyDatePicker'
 import './index.css'
 
 const App = () => {

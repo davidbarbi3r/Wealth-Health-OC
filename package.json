@@ -3,18 +3,23 @@
   "author": "gnark <davidbarbi3r@gmail.com>",
   "private": false,
   "license": "ISC",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "type": "module",
-  "main": "dist/gnarly-date-picker.umd.js",
-  "module": "dist/gnarly-date-picker.es.js",
-  "types": "dist/GnarlyDatePicker.d.ts",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/gnarly-date-picker.es.js",
-      "require": "./dist/gnarly-date-picker.umd.js",
-      "types": "./dist/GnarlyDatePicker.d.ts",
-        "default": "./dist/gnarly-date-picker.es.js"
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js",
+      "types": "./dist/index.d.ts"
     }
+  },
+  "files": [
+    "/dist"
+  ],
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "dev": "vite",
