@@ -1,13 +1,12 @@
 import { defineConfig } from 'vite'
+import { resolve } from 'path'
 import react from '@vitejs/plugin-react'
-
-// https://vitejs.dev/config/
+import dts from "vite-plugin-dts";
 
 export default defineConfig({
-  plugins: [react()],
     build: {
         lib: {
-            entry: 'src/main.tsx',
+            entry: resolve(__dirname, 'src/main.tsx'),
             name: 'GnarlyDatePicker',
             fileName: (format) => `gnarly-date-picker.${format}.js`
         },
@@ -21,6 +20,7 @@ export default defineConfig({
             },
         },
         minify: false
-    }
+    },
+    plugins: [react(), dts()],
 })
 
