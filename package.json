@@ -3,9 +3,17 @@
   "author": "gnark <davidbarbi3r@gmail.com>",
   "private": false,
   "license": "ISC",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "type": "module",
-  "exports": "./src/GnarlyDatePicker.tsx",
+  "main": "dist/gnarly-date-picker.umd.js",
+  "module": "dist/gnarly-date-picker.es.js",
+  "files": ["dist"],
+  "exports": {
+    ".": {
+      "import": "./dist/my-react-library.es.js",
+      "require": "./dist/my-react-library.umd.js"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
