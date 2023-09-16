@@ -47,7 +47,7 @@ export function GnarlyDatePicker({
   const [currentView, setCurrentView] = useState<'YEAR' | 'MONTH' | 'DAY'>('YEAR');
   useEffect(() => {
     const datePickerWrapper: HTMLDivElement = document.querySelector(
-      ".date-selector__wrapper"
+      ".gnarly_date-selector__wrapper"
     ) as HTMLDivElement;
     if (datePickerWrapper.style) {
       (datePickerWrapper.style.gridTemplateAreas = `"year-title month-title day-title" "year month day"`, datePickerWrapper.style.gridTemplateColumns = "50% 20% 30%")
@@ -232,10 +232,10 @@ export function GnarlyDatePicker({
   return (
     <>
         {label ? <label htmlFor="strange-date">{label}:</label> : ""}
-        <div className={"container relative"}>
+        <div className={"gnarly_container gnarly_relative"}>
           <input
             type="text"
-            className={inputClassName}
+            className={`${inputClassName} gnarly_input`}
             id={name}
             name={name}
             value={date}
@@ -245,121 +245,116 @@ export function GnarlyDatePicker({
             pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
           />
           {errorMessage && <p>{errorMessage}</p>}
-          <div className={`container float ${isDateSelectorOpen && 'rotate'}`} onClick={() => toggleDateSelector()}>
+          <div className={`gnarly_container gnarly_float ${isDateSelectorOpen && 'gnarly_rotate'}`} onClick={() => toggleDateSelector()}>
               <img src={arrowRight} width={20} height={20} alt="arrow-right" />
           </div>
         </div>
-        <div className={`modal ${isDateSelectorOpen ? "open" : ""}`}>
-          <div className={`modal-content ${isDateSelectorOpen ? "open" : ""}`}>
-            <div className="date-selector__wrapper">
-              <div className="date-selector__mobile-nav">
-                <span className="date-selector__mobile-nav-left button" onClick={prevStep}>
+        <div className={`gnarly_modal ${isDateSelectorOpen ? "gnarly_open" : ""}`}>
+          <div className={`gnarly_modal-content ${isDateSelectorOpen ? "gnarly_open" : ""}`}>
+            <div className="gnarly_date-selector__wrapper">
+              <div className="gnarly_date-selector__mobile-nav">
+                <span className="gnarly_date-selector__mobile-nav-left gnarly_button-icon" onClick={prevStep}>
                   <img src={arrowLeft} alt={"arrow-left"}/>
                 </span>
-                <span className="date-selector__mobile-nav-right button" onClick={nextStep}>
+                <span className="gnarly_date-selector__mobile-nav-right gnarly_button-icon" onClick={nextStep}>
                   <img src={arrowRight} alt={"arrow-right"}/>
                 </span>
               </div>
               {showColumnIndex ? (
                 <>
-                  <div className={`date-selector__wrapper__year__column-index ${currentView !== 'YEAR' ? 'hidden' : ''}`}>
+                  <div className={`gnarly_date-selector__wrapper__year__column-index ${currentView !== 'YEAR' ? 'gnarly_hidden' : ''}`}>
                     {columnIndex[0]}
                   </div>
-                  <div className={`date-selector__wrapper__month__column-index ${currentView !== 'MONTH' ? 'hidden' : ''}`}>
+                  <div className={`gnarly_date-selector__wrapper__month__column-index ${currentView !== 'MONTH' ? 'gnarly_hidden' : ''}`}>
                     {columnIndex[1]}
                   </div>
-                  <div className={`date-selector__wrapper__day__column-index ${currentView !== 'DAY' ? 'hidden' : ''}`}>
+                  <div className={`gnarly_date-selector__wrapper__day__column-index ${currentView !== 'DAY' ? 'gnarly_hidden' : ''}`}>
                     {columnIndex[2]}
                   </div>
                 </>
               ) : (
                 ""
               )}
-              <div className={`date-selector__wrapper__year ${currentView !== 'YEAR' ? 'hidden' : ''}`}>
-                <div className="date-selector__wrapper__year__century">
+              <div className={`gnarly_date-selector__wrapper__year ${currentView !== 'YEAR' ? 'gnarly_hidden' : ''}`}>
+                <div className="gnarly_date-selector__wrapper__year__century">
                   {centuries.map((century) => (
                     <button
                       type="button"
                       name="year-century"
                       key={"cent" + century}
                       onClick={(e) => dateSelector(e)}
-                      className={century === date.slice(0, 2) ? "active" : ""}
+                      className={`gnarly_button  ${century === date.slice(0, 2) ? "active" : ""}`}
                     >
                       {century}
                     </button>
                   ))}
                 </div>
-                <div className="date-selector__wrapper__year__decade">
+                <div className="gnarly_date-selector__wrapper__year__decade">
                   {decades.map((decade) => (
                     <button
                       type="button"
                       name="year-decade"
                       key={"dec" + decade}
                       onClick={(e) => dateSelector(e)}
-                      className={
-                        decade.slice(0, 1) === date.slice(2, 3) ? "active" : ""
-                      }
+                      className={`gnarly_button ${decade.slice(0, 1) === date.slice(2, 3) ? "active" : ""}`}
                     >
                       {decade}
                     </button>
                   ))}
                 </div>
-                <div className="date-selector__wrapper__year__year">
+                <div className="gnarly_date-selector__wrapper__year__year">
                   {years.map((year) => (
                     <button
                       type="button"
                       name="year-unit"
                       key={"year" + year}
                       onClick={(e) => dateSelector(e)}
-                      className={year === date.slice(3, 4) ? "active" : ""}
+                      className={`gnarly_button  ${year === date.slice(3, 4) ? "active" : ""}`}
                     >
                       {year}
                     </button>
                   ))}
                 </div>
               </div>
-              <div className={`date-selector__wrapper__month ${currentView !== 'MONTH' ? 'hidden' : ''}`}>
+              <div className={`gnarly_date-selector__wrapper__month ${currentView !== 'MONTH' ? 'gnarly_hidden' : ''}`}>
                 {months.map((month) => (
                   <button
                     type="button"
                     name="month"
                     key={"month" + month}
                     onClick={(e) => dateSelector(e)}
-                    className={
-                      month === months[parseInt(date.slice(5, 7)) - 1]
+                    className={`gnarly_button  ${month === months[parseInt(date.slice(5, 7)) - 1]
                         ? "active"
-                        : ""
+                        : ""}`
                     }
                   >
                     {month}
                   </button>
                 ))}
               </div>
-              <div className={`date-selector__wrapper__day ${currentView !== 'DAY' ? 'hidden' : ''}`}>
-                <div className="date-selector__wrapper__day__doze">
+              <div className={`gnarly_date-selector__wrapper__day ${currentView !== 'DAY' ? 'gnarly_hidden' : ''}`}>
+                <div className="gnarly_date-selector__wrapper__day__doze">
                   {doze.map((doz) => (
                     <button
                       type="button"
                       name="day-doze"
                       key={"doz" + doz}
                       onClick={(e) => dateSelector(e)}
-                      className={
-                        doz.slice(0, 1) === date.slice(8, 9) ? "active" : ""
-                      }
+                      className={`gnarly_button  ${doz.slice(0, 1) === date.slice(8, 9) ? "active" : ""}`}
                       ref={doz === "3" ? dozeThirtyButton : null}
                     >
                       {doz}
                     </button>
                   ))}
                 </div>
-                <div className="date-selector__wrapper__day__day">
+                <div className="gnarly_date-selector__wrapper__day__day">
                   {days.map((day) => (
                     <button
                       type="button"
                       name="day-unit"
                       key={"day" + day}
                       onClick={(e) => dateSelector(e)}
-                      className={day === date.slice(9, 10) ? "active" : ""}
+                      className={`gnarly_button  ${day === date.slice(9, 10) ? "active" : ""}`}
                       ref={day === "9"
                           ? dayNineButton
                           : day === "1"

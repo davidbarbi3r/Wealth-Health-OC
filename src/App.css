@@ -1,50 +1,65 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.gnarly_button {
+  border: 1px solid transparent;
+  padding: 0;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+.gnarly_button:hover {
+  border-color: #646cff;
+}
+.gnarly_button:focus,
+.gnarly_button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
 }
 
-.container {
+.gnarly_container {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.relative {
+.gnarly_relative {
   position: relative;
 }
 
-.float {
+.gnarly_float {
   float: right;
 }
 
-.rotate {
+.gnarly_rotate {
   transform: rotate(90deg);
 }
 
-.button {
+.gnarly_input {
+  width: 100%;
+}
+
+.gnarly_button-icon {
   cursor: pointer;
 }
 
-.open {
+.gnarly_open {
   display: block !important;
 }
 
-.modal {
+.gnarly_modal {
   display: none;
   position: absolute;
   background-color: #ffffff;
   opacity: 100;
 }
 
-.modal-content {
+.gnarly_modal-content {
   background-color: #ffffff;
   border: 1px solid #888;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
-.date-selector__wrapper {
+.gnarly_date-selector__wrapper {
   display: grid;
   grid-template-columns: 50% 20% 30%;
   grid-template-rows: min-content;
@@ -54,68 +69,75 @@
   background-color: #f9f9f9;
 }
 
-.date-selector__wrapper__year {
+.gnarly_date-selector__wrapper__year {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-area: year;
 }
 
-.date-selector__wrapper__year__column-index {
+.gnarly_date-selector__wrapper__year__column-index {
   display: grid;
   grid-area: year-title;
+  text-align: center;
+  height: 25px;
+  align-self: center;
 }
 
-.date-selector__wrapper__year__century {
+.gnarly_date-selector__wrapper__year__century {
   display: grid;
   grid-template-rows: 3;
 }
 
-.date-selector__wrapper__year__decade {
+.gnarly_date-selector__wrapper__year__decade {
   display: grid;
   grid-template-rows: 3;
 }
 
-.date-selector__wrapper__year__year {
+.gnarly_date-selector__wrapper__year__year {
   display: grid;
   grid-template-rows: 3;
 }
 
-.date-selector__wrapper__month {
+.gnarly_date-selector__wrapper__month {
   display: grid;
   border-right: 1px solid #ccc;
   border-left: 1px solid #ccc;
   grid-area: month;
 }
 
-.date-selector__wrapper__month__column-index {
+.gnarly_date-selector__wrapper__month__column-index {
   display: grid;
   border-right: 1px solid #ccc;
   border-left: 1px solid #ccc;
   grid-area: month-title;
+  text-align: center;
+  height: 25px;
 }
 
-.date-selector__wrapper__day {
+.gnarly_date-selector__wrapper__day {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-area: day;
 }
 
-.date-selector__wrapper__day__column-index {
+.gnarly_date-selector__wrapper__day__column-index {
   display: grid;
   grid-area: day-title;
+  text-align: center;
+  height: 25px;
 }
 
-.date-selector__wrapper__day__doze {
+.gnarly_date-selector__wrapper__day__doze {
   display: grid;
   grid-template-rows: repeat(4, 1fr);
 }
 
-.date-selector__wrapper__day__day {
+.gnarly_date-selector__wrapper__day__day {
   display: grid;
   grid-template-rows: 3;
 }
 
-.date-selector__mobile-nav {
+.gnarly_date-selector__mobile-nav {
   display: none;
 }
 
@@ -125,7 +147,7 @@ button.active {
 }
 
 @media (max-width: 5000px) {
-  .date-selector__mobile-nav {
+  .gnarly_date-selector__mobile-nav {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -133,10 +155,10 @@ button.active {
     top: 0;
   }
 
-  .date-selector__mobile-nav-right {
+  .gnarly_date-selector__mobile-nav-right {
     float: right;
   }
-  .date-selector__wrapper {
+  .gnarly_date-selector__wrapper {
     position: relative;
     min-width: 300px;
     width: auto;
@@ -145,24 +167,24 @@ button.active {
     flex-direction: column;
   }
 
-  .date-selector__wrapper__year {
+  .gnarly_date-selector__wrapper__year {
     display: grid;
     flex-grow: 1;
     grid-template-columns: repeat(3, 1fr);
     z-index: 1;
   }
 
-  .date-selector__wrapper__month {
+  .gnarly_date-selector__wrapper__month {
     flex-grow: 1;
     border-right: 1px solid #ccc;
     border-left: 1px solid #ccc;
   }
 
-  .date-selector__wrapper__day {
+  .gnarly_date-selector__wrapper__day {
     flex-grow: 1;
   }
 
-  .hidden {
+  .gnarly_hidden {
     display: none;
   }
 }
