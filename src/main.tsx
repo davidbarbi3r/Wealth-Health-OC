@@ -4,9 +4,10 @@ import {GnarlyDatePicker} from './GnarlyDatePicker'
 import './index.css'
 
 const App = () => {
+    const [date, setDate] = React.useState<string>("1990-01-01")
     return (
         <React.StrictMode>
-            <GnarlyDatePicker />
+            <GnarlyDatePicker date={date} setDate={setDate}/>
         </React.StrictMode>
     );
 };
