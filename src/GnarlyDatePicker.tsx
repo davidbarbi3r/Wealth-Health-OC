@@ -3,7 +3,7 @@ import arrowRight from "./assets/arrow-narrow-right.svg"
 import arrowLeft from "./assets/arrow-narrow-left.svg"
 import "./App.css";
 
-interface AppProps {
+interface AppProps extends React.HTMLProps<HTMLInputElement>{
   name?: string;
   label?: string;
   defaultDate?: string;
@@ -22,7 +22,8 @@ export function GnarlyDatePicker({
   wrapperHeight = "auto",
   wrapperWidth = "auto",
   showColumnIndex = true,
-  inputClassName = ""
+  inputClassName = "",
+    ...props
 }: AppProps) {
   const [date, setDate] = useState(
     defaultDate ? defaultDate : new Date().toISOString().slice(0, 10)
@@ -243,6 +244,7 @@ export function GnarlyDatePicker({
               handleDateChange(e);
             }}
             pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+            {...props}
           />
           {errorMessage && <p>{errorMessage}</p>}
           <div className={`gnarly_container gnarly_float ${isDateSelectorOpen && 'gnarly_rotate'}`} onClick={() => toggleDateSelector()}>
