@@ -87,19 +87,6 @@ export const GnarlyDatePicker = forwardRef<HTMLInputElement, AppProps>((props, r
   const doze = ["0", "1", "2", "3"];
   const days = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newDate = e.currentTarget.value;
-    const dateRegex = /^(19|20|21)[0-9]{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/
-
-    if (!dateRegex.test(newDate)) {
-      setErrorMessage('Please enter a valid date in YYYY-MM-DD format.');
-    } else {
-      setErrorMessage('');
-    }
-
-    setDate(e.currentTarget.value);
-  };
-
   const setActive = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.parentElement
       ?.querySelectorAll("button")
@@ -241,9 +228,6 @@ export const GnarlyDatePicker = forwardRef<HTMLInputElement, AppProps>((props, r
             id={name}
             name={name}
             value={date}
-            onChange={(e) => {
-              handleDateChange(e);
-            }}
             pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
             {...rest}
           />
