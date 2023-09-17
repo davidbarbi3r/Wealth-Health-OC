@@ -67,10 +67,10 @@ export const GnarlyDatePicker = forwardRef<HTMLInputElement, AppProps>((props, r
     );
     if (regex.test(value)) {
       setErrorMessage("");
-      setDate(value);
     } else {
       setErrorMessage("Invalid date format");
     }
+    setDate(value)
   }
 
   const formatDate = (date: string, isInput: boolean = false) => {
