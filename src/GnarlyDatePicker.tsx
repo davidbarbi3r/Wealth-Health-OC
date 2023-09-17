@@ -60,6 +60,19 @@ export const GnarlyDatePicker = forwardRef<HTMLInputElement, AppProps>((props, r
     return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
   };
 
+  const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const regex = new RegExp(
+      "^(19|20|21)[0-9]{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$"
+    );
+    if (regex.test(value)) {
+      setErrorMessage("");
+      setDate(value);
+    } else {
+      setErrorMessage("Invalid date format");
+    }
+  }
+
   const formatDate = (date: string, isInput: boolean = false) => {
     const year = date.slice(0, 4);
     const month = date.slice(5, 7);
@@ -226,6 +239,7 @@ export const GnarlyDatePicker = forwardRef<HTMLInputElement, AppProps>((props, r
             id={name}
             name={name}
             value={date}
+            onChange={handleChangeDate}
             pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
             ref={ref}
             {...rest}
