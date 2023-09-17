@@ -219,7 +219,7 @@ export const GnarlyDatePicker = forwardRef<HTMLInputElement, AppProps>((props, r
   };
 
   return (
-    <div ref={ref}>
+    <div>
         {label ? <label htmlFor="strange-date">{label}:</label> : ""}
         <div className={"gnarly_container gnarly_relative"}>
           <input
@@ -229,6 +229,7 @@ export const GnarlyDatePicker = forwardRef<HTMLInputElement, AppProps>((props, r
             name={name}
             value={date}
             pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+            ref={ref}
             {...rest}
           />
           {errorMessage && <p>{errorMessage}</p>}
