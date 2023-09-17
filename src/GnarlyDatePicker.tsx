@@ -6,7 +6,8 @@ import "./App.css";
 interface AppProps extends React.HTMLProps<HTMLInputElement>{
   name?: string;
   label?: string;
-  defaultDate?: string;
+  date: string;
+  setDate: React.Dispatch<React.SetStateAction<string>>;
   displayDateText?: boolean;
   wrapperHeight?: string;
   wrapperWidth?: string;
@@ -18,7 +19,7 @@ export const GnarlyDatePicker = forwardRef<HTMLInputElement, AppProps>((props, r
   const {
   name = "date",
   label,
-  defaultDate,
+  date, setDate,
   displayDateText = false,
   wrapperHeight = "auto",
   wrapperWidth = "auto",
@@ -26,9 +27,6 @@ export const GnarlyDatePicker = forwardRef<HTMLInputElement, AppProps>((props, r
   inputClassName = "",
     ...rest
 } = props;
-  const [date, setDate] = useState(
-    defaultDate ? defaultDate : new Date().toISOString().slice(0, 10)
-  );
   const [isDateSelectorOpen, setIsDateSelectorOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("")
   const toggleDateSelector = () => {
