@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef} from "react";
+import {useEffect, useState, useRef, forwardRef} from "react";
 import arrowRight from "./assets/arrow-narrow-right.svg"
 import arrowLeft from "./assets/arrow-narrow-left.svg"
 import "./App.css";
@@ -14,7 +14,8 @@ interface AppProps extends React.HTMLProps<HTMLInputElement>{
   inputClassName?: string;
 }
 
-export function GnarlyDatePicker({
+export const GnarlyDatePicker = forwardRef<HTMLInputElement, AppProps>((props, ref) => {
+  const {
   name = "date",
   label,
   defaultDate,
@@ -23,8 +24,8 @@ export function GnarlyDatePicker({
   wrapperWidth = "auto",
   showColumnIndex = true,
   inputClassName = "",
-    ...props
-}: AppProps) {
+    ...rest
+} = props;
   const [date, setDate] = useState(
     defaultDate ? defaultDate : new Date().toISOString().slice(0, 10)
   );
@@ -231,7 +232,7 @@ export function GnarlyDatePicker({
   };
 
   return (
-    <>
+    <div ref={ref}>
         {label ? <label htmlFor="strange-date">{label}:</label> : ""}
         <div className={"gnarly_container gnarly_relative"}>
           <input
@@ -244,7 +245,7 @@ export function GnarlyDatePicker({
               handleDateChange(e);
             }}
             pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
-            {...props}
+            {...rest}
           />
           {errorMessage && <p>{errorMessage}</p>}
           <div className={`gnarly_container gnarly_float ${isDateSelectorOpen && 'gnarly_rotate'}`} onClick={() => toggleDateSelector()}>
@@ -374,6 +375,6 @@ export function GnarlyDatePicker({
           </div>
         </div>
         {displayDateText ? <h3>{formatDate(date)}</h3> : ""}
-    </>
+    </div>
   );
-}
+})
