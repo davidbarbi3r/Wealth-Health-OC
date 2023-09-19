@@ -58,13 +58,13 @@ function MyComponent() {
 
 ### Additional Props
 
-name (optional): The name attribute for the input field.
-label (optional): A label for the date picker.
-displayDateText (optional): A boolean to control the display of the selected date.
-wrapperHeight (optional): The height of the date picker wrapper.
-wrapperWidth (optional): The width of the date picker wrapper.
-showColumnIndex (optional): A boolean to control the display of column indices.
-inputClassName (optional): CSS class for styling the input element.
+* name (optional): The name attribute for the input field.
+* label (optional): A label for the date picker.
+* displayDateText (optional): A boolean to control the display of the selected date.
+* wrapperHeight (optional): The height of the date picker wrapper.
+* wrapperWidth (optional): The width of the date picker wrapper.
+* showColumnIndex (optional): A boolean to control the display of column indices.
+* inputClassName (optional): CSS class for styling the input element.
 
 Feel free to customize the component's appearance and behavior further based on your application's needs.
 
