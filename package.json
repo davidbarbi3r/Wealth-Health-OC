@@ -3,7 +3,7 @@
   "author": "gnark <davidbarbi3r@gmail.com>",
   "private": false,
   "license": "ISC",
-  "version": "0.1.28",
+  "version": "0.2.0",
   "type": "module",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",

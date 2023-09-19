@@ -1,27 +1,74 @@
-# React + TypeScript + Vite
+# gnarly-date-picker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![npm version](https://img.shields.io/npm/v/gnarly-date-picker.svg)](https://www.npmjs.com/package/gnarly-date-picker)
+[![GitHub repo](https://img.shields.io/badge/GitHub-Repo-blue.svg)](https://github.com/your-github-username/gnarly-date-picker)
+[![Node.js version](https://img.shields.io/badge/Node.js-16.14.2-green.svg)](https://nodejs.org/)
 
-Currently, two official plugins are available:
+A customizable date picker component for React.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The `gnarly-date-picker` component is a versatile date picker that can be integrated into your React applications. It provides a flexible and user-friendly solution for selecting dates.
 
-## Expanding the ESLint configuration
+## Prerequisites
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Before using this component, ensure that you have React and React DOM installed in your project.
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+```bash
+npm install react react-dom
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Installation
+
+You can install the package using npm, pnpm, or yarn:
+
+```bash
+npm install gnarly-date-picker
+pnpm install gnarly-date-picker
+yarn add gnarly-date-picker
+```
+
+## Usage
+
+```jsx
+import GnarlyDatePicker from "gnarly-date-picker";
+
+// ...
+
+function MyComponent() {
+    const [date, setDate] = useState(null);
+    
+    return (
+    <form>
+        <GnarlyDatePicker
+            date={date} 
+            setDate={setDate}
+        />
+    </form>
+    );
+    }
+
+    export default MyComponent;
+```
+
+## Props
+
+### The GnarlyDatePicker component accepts the following props:
+
+**date** (required): The selected date value (controlled component).
+**setDate** (required): A function to update the selected date (controlled component).
+
+### Additional Props
+
+name (optional): The name attribute for the input field.
+label (optional): A label for the date picker.
+displayDateText (optional): A boolean to control the display of the selected date.
+wrapperHeight (optional): The height of the date picker wrapper.
+wrapperWidth (optional): The width of the date picker wrapper.
+showColumnIndex (optional): A boolean to control the display of column indices.
+inputClassName (optional): CSS class for styling the input element.
+
+Feel free to customize the component's appearance and behavior further based on your application's needs.
+
+### Links
+
+[npm package](https://www.npmjs.com/package/gnarly-date-picker)
+[GitHub repository](https://github.com/davidbarbi3r/gnarly-date-picker)
