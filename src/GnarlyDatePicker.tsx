@@ -56,10 +56,18 @@ export const GnarlyDatePicker = forwardRef<HTMLInputElement, AppProps>((props, r
     }
   }, [wrapperHeight, wrapperWidth]);
 
+  /**
+   * Check if a year is bisextile
+   * @param year {number}
+   */
   const isYearBisextile = (year: number) => {
     return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
   };
 
+  /**
+   * Handle change date
+   * @param e {React.ChangeEvent<HTMLInputElement>}
+   */
   const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const regex = new RegExp(
@@ -73,6 +81,11 @@ export const GnarlyDatePicker = forwardRef<HTMLInputElement, AppProps>((props, r
     setDate(value)
   }
 
+  /**
+   * Format date
+   * @param date{string} - Date to format (YYYY-MM-DD)
+   * @param isInput{boolean} - If the date is from an input
+   */
   const formatDate = (date: string, isInput: boolean = false) => {
     const year = date.slice(0, 4);
     const month = date.slice(5, 7);
@@ -83,11 +96,17 @@ export const GnarlyDatePicker = forwardRef<HTMLInputElement, AppProps>((props, r
     return `${months[parseInt(month) - 1]} ${day}, ${year}`;
   };
 
+  /**
+   * Go to the next step in mobile view of the date selector
+   */
   const nextStep = () => {
     if (currentView === 'YEAR') setCurrentView('MONTH');
     else if (currentView === 'MONTH') setCurrentView('DAY');
   }
 
+  /**
+   * Go to the previous step in mobile view of the date selector
+   */
   const prevStep = () => {
     if (currentView === 'MONTH') setCurrentView('YEAR');
     else if (currentView === 'DAY') setCurrentView('MONTH');
@@ -98,6 +117,12 @@ export const GnarlyDatePicker = forwardRef<HTMLInputElement, AppProps>((props, r
   const doze = ["0", "1", "2", "3"];
   const days = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
+  /**
+   * Set active class on button, remove it from others
+   * it's used to highlight the selected button
+   * to select the date
+   * @param e {React.MouseEvent<HTMLButtonElement>}
+   */
   const setActive = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.parentElement
       ?.querySelectorAll("button")
@@ -107,6 +132,13 @@ export const GnarlyDatePicker = forwardRef<HTMLInputElement, AppProps>((props, r
     e.currentTarget.classList.add("active");
   };
 
+  /**
+   * Handle day zero and dozen zero
+   * If the day dozen is 0 and the day unit is 0
+   * disable the day zero button
+   * @param date {string} - Date to format (YYYY-MM-DD)
+   * @param date
+   */
   function handleDayZeroAndDozenZero (date: string) {
     if (date.slice(8, 9) === "0") {
       dayZeroButton.current!.disabled = true;
@@ -119,6 +151,13 @@ export const GnarlyDatePicker = forwardRef<HTMLInputElement, AppProps>((props, r
     }
   }
 
+  /**
+   * Handle dozen three
+   * If the day dozen is 3
+   * disable days > 0 if the month is short
+   * disable days > 1 if the month is long
+   * @param date {string} - Date to format (YYYY-MM-DD)
+   */
   function handleDozenThree (date: string) {
     if (date.slice(8, 9) === "3") {
       // si le mois est long
@@ -146,6 +185,12 @@ export const GnarlyDatePicker = forwardRef<HTMLInputElement, AppProps>((props, r
     }
   }
 
+  /**
+   * Handle february specificities
+   * If the month is february
+   * disable days > 28 if the year is not bisextile
+   * @param date {string} - Date to format (YYYY-MM-DD)
+   */
   function handleFebruary (date:string) {
     if (date.slice(5, 7) === "02") {
       dozeThirtyButton.current!.disabled = true;
@@ -171,6 +216,10 @@ export const GnarlyDatePicker = forwardRef<HTMLInputElement, AppProps>((props, r
     }
   }
 
+  /**
+   * Handle date selector
+   * @param e {React.MouseEvent<HTMLButtonElement>}
+   */
   const dateSelector = (e: React.MouseEvent<HTMLButtonElement>) => {
     let updatedDate = date;
     setActive(e);
