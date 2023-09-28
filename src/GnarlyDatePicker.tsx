@@ -15,6 +15,22 @@ interface AppProps extends React.HTMLProps<HTMLInputElement>{
   inputClassName?: string;
 }
 
+/**
+ * Component GnarlyDatePicker for date selection
+ * 
+ * @param props - Component props
+ * @param {string} props.name - Name of the input
+ * @param {string} props.label - Label of the input
+ * @param {string} props.date - Date controlled state
+ * @param {React.Dispatch<React.SetStateAction<string>>} props.setDate - Date setter
+ * @param {boolean} props.displayDateText - display date text
+ * @param {string} props.wrapperHeight - Wrapper height
+ * @param {string} props.wrapperWidth - Wrapper width
+ * @param {boolean} props.showColumnIndex - Show column index
+ * @param {string} props.inputClassName - Input class name
+ * @param ref - Reference to the input
+ * @returns {JSX.Element} - Component JSX
+ */
 export const GnarlyDatePicker = forwardRef<HTMLInputElement, AppProps>((props, ref) => {
   const {
   name = "date",

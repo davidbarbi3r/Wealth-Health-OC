@@ -16,6 +16,11 @@
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.gnarly_button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .gnarly_container {
   display: flex;
   align-items: center;
